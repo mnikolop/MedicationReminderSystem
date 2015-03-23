@@ -1,162 +1,142 @@
 <?php
-include('constants.php');
-include ('header3.php');
+include_once 'includes/db_connect.php';
+include_once 'includes/functions.php';
 
-if (isset($_GET['Logout'])||!isset($_SESSION['mode'])||($_SESSION['mode']!='patient')){
-	session_destroy();
-	header('Location:index.php');
-}
-
-$t="SELECT prescriptions.Id, drugs.Name, prescriptions.LastTaken, prescriptions.Dosage FROM prescriptions,patients,drugs WHERE patients.PUsername=prescriptions.Patient AND prescriptions.Drug=drugs.Id AND patients.PUsername='".$_SESSION['user']."';";
-$prescriptions=mysql_query($t);
-while ($i=mysql_fetch_array($prescriptions))
-		$drug[]=$i;
-//echo "---".$t;
-//echo "---".$prescriptions;
-if (isset($_GET['took'])){
-	//
-	foreach($drug as $pill){
-		if (isset($_GET[$pill['Name']])){
-			$ret=mysql_query("UPDATE Prescriptions SET LastTaken=NOW() WHERE Id=".$pill['Id'],$db);
-				//echo "!!!".$ret;
-				
-		}
-	}
-}
-
+sec_session_start();
 ?>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>
-		CyberDoc
-	</title>
-	<meta name="description" content="All pharmaceutical and therapeutic treatments in one place. Reminder for those who forget and entertainment for everyone.">
-	<meta name="author" content="Markella Nikolopoulou">
-	<meta charset="utf-8">
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
-	<link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
-
-	<script>
-	//document.write("apifdsoufgn;ojfn ");
-	time=[];
-	
-	<?php 
-
-	$index=0;
-	foreach($drug as $i)
-	{ 
-		echo "time[".$index."]=".((strtotime($i['LastTaken'])+$i['Every']*60-time()-3600)).";\n";
-		$index=$index+1;
-	}
-	echo "max=".$index.";\n";
-	
-	?>
-	var i=0;
-	temp=1;
-
-	function div(x,y)
-	{
-		x=Math.abs(x);
-		if (x%y==0)
-			return parseInt(x/y);
-		else
-			return parseInt(x/y)+1;
-	}
-
-	function update()
-	{
-				alert(max);
-for (i=0;i<max;i++)
-{
-			alert('x'+i);
-			time[i]=time[i]-1;
-			h=div(time[i],60*60)%24-1;
-			m=div(time[i],60)%60-1;
-			s=Math.abs(time[i]%60);
-			if (time[i]<0)
-				str="Time is running out";
-			else
-				str="";
-			if (time[i]==0)
-				notify(document.getElementById('y'+i).innerHTML);
-			if (Math.abs(time[i])<15)
-				document.getElementById('z'+i).style.backgroundColor='orange';
-			else if (time[i]<0)
-				document.getElementById('z'+i).style.backgroundColor='red';
-			else
-				document.getElementById('z'+i).style.backgroundColor='green';
-			document.getElementById('x'+i).innerHTML=h+":"+m+":"+s+" "+str;
-		}
-				document.getElementById('x').innerHTML=time[0];
-				document.getElementById('x').style.backgroundColor='red';
-			}
-
-			function notify(x)
-			{
-				alert("Please take your "+x);
-			}
-
-	</script>		
+    <meta charset="UTF-8">
+    <title>Patient's page</title>  
+    <script type="text/JavaScript" src="js/sha512.js"></script> 
+    <script type="text/JavaScript" src="js/forms.js"></script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- defining responsivnes in mobile devices -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> <!-- styling link -->
 </head>
-		<body>
-			<div class="container">
-			<div class="row">
-				
-			</div>
-			<h1>Welcome Mr/Ms <?php echo $_SESSION['name'];?></h1>
-			<?php
-				foreach($drug as $i)
-				{
-					echo $i['Name'];
-				}
-				echo date('y-m-d H:i:s',strtotime('+8 hour'));
-			?>
-			<table><form action='' method='get'>
-				<tr><th>Medication</th><th></th></tr>
-				<?php
-				$index=0;
-				if ($prescriptions!=null) 
-					foreach($drug as $i){
-					
-					$next=strtotime($i['LastTaken'])+$i['Dosage']*60;
-					$now=time()+60*60;
-		$diff=abs($next-$now)-60*60; 	//dunno why its -1h
+<body>
+    <div id="patient"> 
+        <div class="page-header"> <!-- page header: prefered because there was nothing to put in the navibar -->
+            <h1>Welcome Mr/Mrs <?php echo htmlentities($_SESSION['username']); ?>
+            </h1>
+        </div>
+        <div class="container-fluid">
+         <div class=" col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+                <ul class="nav bs-docs-sidenav">
+                    <li>
+                        <a href="#therapies">Therapies</a>
+                    </li>
+                    <li>
+                        <a href="#doctors">Doctors</a>
+                    </li>
+                    <li>
+                        <a href="#profile">Profile</a>
+                    </li>
+                    <li class="">
+                       <?php echo '<a href="includes/logout.php">Log Out</a>' ?>
+                   </li>
+                   <li>
+                    <a href="#">Back to the top of the Page</a>
+                </li>
+            </ul>
+        </nav>
 
-//		echo date("H:i:s",$next)."-".date("H:i:s",$now)."<br/>";
-//		echo $next."-".time()."<br/>";
-		if (abs($now-$next)<30)
-			$t='orange'; 
-		else if ($now-$next<0)
-			$t='blue';
-		else	
-			$t='red';
-		echo "<tr id='z".($index)."' ><td id='y".($index)."'>".$i['Name'].'</td><td>';
-		echo '<input type="checkbox" name="'.$i['Name']."\"/><i id='x".($index)."'>".date('H:i:s',$diff);
-		echo "</i></td></tr>\n";
-		$index=$index+1;
-	}
-	?>
-	<tr><td><input type='submit' value='take pills' /></td></tr>
-	<input type='hidden' value='foo' name='took' />
-</form></table>
+    </div>  
+    <div class="col-md-10">
+        <div class="bs-docs-section">
+            <h3 id="therapies" class="page-header">Therapies</h3>
+            
+            <?php 
+            $time = time();
+            
+            $stmt = "SELECT * 
+            FROM `prescriptions`, `drugs` 
+            WHERE prescriptions.Drug = drugs.Id 
+            AND Patient = '".$_SESSION['username']."'";
+            $result = mysqli_query($mysqli,$stmt);
+            while ($i = mysqli_fetch_array($result))
+                $p[] = $i;
+            ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Drug</th>
+                        <th>Dosage</th>
+                        <th>ETA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($p as $i) {
+                        printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['LastTaken']);
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="bs-docs-section">
+            <h3 id="doctors" class="page-header">Doctors</h3>
+            <?php 
+            $stmt1 = "SELECT * 
+            FROM `treated`, `members`
+            WHERE treated.DUsername = members.username
+            AND PUsername = '".$_SESSION['username']."'";
+            $result1 = mysqli_query($mysqli,$stmt1);
+            while ($i = mysqli_fetch_array($result1))
+                $p[] = $i;
+            ?>
 
-<form>
-	<input type='submit' value='Logout' />
-	<input type='hidden' value='true' name='Logout' />
-</form>
-<script>
-update();		
-setInterval('update()',1000);
-document.getElementById('x').innerHTML=1;
-</script>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>e-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($p as $i) {
+                        printf("<tr> <td>%s</td> <td>%s</td> </tr>\n", $i['username'], $i['email']);
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="bs-docs-section">
+            <h3 id="profile" class="page-header">Profile</h3>
+            <?php 
+            $stmt2 = "SELECT * 
+            FROM `members` 
+            WHERE username = '".$_SESSION['username']."'";
+            $result = mysqli_query($mysqli, $stmt2);
+            $i = mysqli_fetch_array($result);
+            ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>e-mail</th>
+                        <th>Capacity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> <?php echo $i['username']; ?> </td>
+                        <td> <?php echo $i['email']; ?> </td>
+                        <td> <?php echo $i['capacity']; ?> </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
-
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-
-<script src="js/bootstrap.js"></script>
 
 </body>
 </html>

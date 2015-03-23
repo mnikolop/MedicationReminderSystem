@@ -1,217 +1,31 @@
-.navbar-inverse .navbar-inner {
-  font-size: 20;
-  color: black;
- background-image: linear-gradient(to bottom, rgb(88, 83, 83),rgb(180, 180, 180));
-}
-
-.navbar-inverse .brand {
-color: #999999;
-}
-
-.navbar-inverse .brand, .navbar-inverse .nav > li > a {
-color: rgb(0, 0, 0);
-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
-form {
-padding: 5px;
-}
-
-
-.loginButtons, 
-.signupButtons {
-padding-top: 10px;
-}
-
-
-
-/*----------------------------------------------------------------*/
-
-
+/* general styling */
 body{
-  margin-top:60px;
-  background: url("../img/bg.png");
-  background-repeat: no-repeat;
-  background-position: right bottom;
+	background-repeat: no-repeat;
+	background: #E5E5E5; /* Standard syntax */
+    padding-bottom: 30px;
 }
 
-#introduction{
-	text-align:center;
-  font-size: 25;
-}
-
-#features{  
-  text-align:center;
-  font-size: 25;
-}
-
-#contact{
-  text-align:center;
-  font-size: 25;
-}
-
-#text{
-text-align:center;
-}
-
-table{
-text-align:left;
-}
-
-tbody {
-/*display: table-row-group;
-vertical-align: middle;
-border-color: inherit;*/
-text-align:left;
-}
-Inherited from table#table
-
-
-/*----------------------------------------------------------------*/
-
-
-
-#InfoBox{
-position: relative;
-width: 100%;
-height: 50%;
-background: rgba(0, 0, 0, 0.38);
-border-radius: 4px;
-margin: 0 auto;
-border: 1px solid #a8a8a8;
-box-shadow: 0 1px 1px #fff,0 0 6px rgba(0,0,0,0.2) outset;
-padding: 3.5% 1.6% 4%;
-} 
-
-
-/*----------------------------------------------------------------*/
-
-.carousel-inner {
-position: relative;
-width: 100%;
-overflow: hidden;
-text-align: center;
+.page-header {
+    border-bottom: 1px solid #400000;
+    padding-left: 3%
 }
 
 
-.carousel .item > { 
-display: inline-block; 
+/* form styling */
+
+
+/* login container styling */
+
+
+/* doctor page styling */
+#doctor{
+
 }
 
-
-.carousel-control {
-position: absolute;
-top: 150%;
-left: 15px;
-width: 40px;
-height: 40px;
-margin-top: -20px;
-font-size: 60px;
-font-weight: 100;
-line-height: 30px;
-color: #ffffff;
-text-align: center;
-background: #222222;
-border: 3px solid #ffffff;
--webkit-border-radius: 23px;
--moz-border-radius: 23px;
-border-radius: 23px;
-opacity: 0.5;
+/* footer styling */
+.navbar-fixed-bottom{
+    font-size: 10px;
+    margin-bottom: 0;
+    background: transparent;
+    border-top: none;
 }
-
-/*----------------------------------------------------------------*/
-
-
-
-#InfoContactBox{
-position: relative;
-width: 100%;
-height: 25%;
-background: rgba(0, 0, 0, 0.38);
-border-radius: 4px;
-margin: 0 auto;
-border: 1px solid #a8a8a8;
-box-shadow: 0 1px 1px #fff,0 0 6px rgba(0,0,0,0.2) outset;
-padding: 3.5% 1.6% 4%;
-} 
-
-/*#infoContact{
-text-align:left;
-font-size:15; 
-position: relative;
-background: rgba(255, 255, 255, 0.65)0;
-width: 40%;
-height: 60px;
-border-radius: 4px;
-margin: 0% 0% 0% 4%;
-border: 1px solid #a8a8a8;
-box-shadow: 0 1px 1px #fff,0 0 6px rgba(0,0,0,0.2) inset;
-padding: 3.5% 1.6% 4%;
-} */
-
-#infoContact {
-text-align: left;
-font-family: 'Josefin Slab', serif;
-font-size: 15;
-color: black;
-position: relative;
-background-color: rgba(233, 230, 220, 0.61);
-width: 40%;
-height: 50%;
-border-radius: 4px;
-margin: 0% 0% 0% 4%;
-border: 1px solid #a8a8a8;
-box-shadow: 0 1px 1px #fff,0 0 6px rgba(0,0,0,0.2) inset;
-padding: 3.5% 1.6% 4%;
-}
-
-#image{
-float: left;
-max-width: 90px;
-/*margin: -10px 10px 0px -10px;*/
-}
-
-#info{
-float: center;
-vertical-align: middle;
-height: 100px;
-width: 260px; 
-}
-
-/*----------------------------------------------------------------*/
-
-
- /* Set the fixed height of the footer here */
-      #push,
-      #footer {
-        height: 20px;
-      }
-     
-
-      /* Lastly, apply responsive CSS fixes as necessary */
-      @media (max-width: 767px) {
-        #footer {
-          margin-left: -20px;
-          margin-right: -20px;
-          padding-left: 20px;
-          padding-right: 20px;
-        }
-      }
-
-
-
-
-
-.btn{
-background: #606c88; /* Old browsers */
-background: -moz-radial-gradient(center, ellipse cover,  #606c88 0%, #3f4c6b 100%); /* FF3.6+ */
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#606c88), color-stop(100%,#3f4c6b)); /* Chrome,Safari4+ */
-background: -webkit-radial-gradient(center, ellipse cover,  #606c88 0%,#3f4c6b 100%); /* Chrome10+,Safari5.1+ */
-background: -o-radial-gradient(center, ellipse cover,  #606c88 0%,#3f4c6b 100%); /* Opera 12+ */
-background: -ms-radial-gradient(center, ellipse cover,  #606c88 0%,#3f4c6b 100%); /* IE10+ */
-background: radial-gradient(ellipse at center,  #606c88 0%,#3f4c6b 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-}
-
-/*----------------------------------------------------------------------------------------*/
-
