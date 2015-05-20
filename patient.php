@@ -3,11 +3,14 @@ include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 sec_session_start();
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <!--     <meta http-equiv="refresh" content="1"> -->
     <title>Patient's page</title>  
     <script type="text/JavaScript" src="js/sha512.js"></script> 
     <script type="text/JavaScript" src="js/forms.js"></script> 
@@ -17,6 +20,12 @@ sec_session_start();
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet"> <!-- styling link -->
+    <script type="text/javascript">
+    update();       
+    setInterval('update()',1000);
+    document.getElementById('x').innerHTML=1;
+    </script>
+
 </head>
 <body>
     <div id="patient"> 
@@ -25,8 +34,8 @@ sec_session_start();
             </h1>
         </div>
         <div class="container-fluid">
-         <div class=" col-md-2" role="complementary">
-            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+           <div class=" col-md-2" role="complementary">
+            <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                 <ul class="nav bs-docs-sidenav">
                     <li>
                         <a href="#therapies">Therapies</a>
@@ -35,12 +44,15 @@ sec_session_start();
                         <a href="#doctors">Doctors</a>
                     </li>
                     <li>
+                        <a href="#">Add a new Doctor to the doctor list</a>
+                    </li>
+                    <li>
                         <a href="#profile">Profile</a>
                     </li>
                     <li class="">
-                       <?php echo '<a href="includes/logout.php">Log Out</a>' ?>
-                   </li>
-                   <li>
+                     <?php echo '<a href="includes/logout.php">Log Out</a>' ?>
+                 </li>
+                 <li>
                     <a href="#">Back to the top of the Page</a>
                 </li>
             </ul>
@@ -52,30 +64,94 @@ sec_session_start();
             <h3 id="therapies" class="page-header">Therapies</h3>
             
             <?php 
-            $time = time();
+            // $t = time();
+            // $h = ($t / (60*60)) % (24-1);
+            // $m = ($t /60) % (60-1);
+            // $s = abs($t % 60);
+
             
-            $stmt = "SELECT * 
-            FROM `prescriptions`, `drugs` 
-            WHERE prescriptions.Drug = drugs.Id 
-            AND Patient = '".$_SESSION['username']."'";
-            $result = mysqli_query($mysqli,$stmt);
-            while ($i = mysqli_fetch_array($result))
-                $p[] = $i;
             ?>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Drug</th>
                         <th>Dosage</th>
-                        <th>ETA</th>
+                        <th>Perscribed by:</th>
+                        <th>Take egain in:</th>
+                        <th>Time left:</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     <?php
-                    foreach ($p as $i) {
-                        printf("<tr><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['LastTaken']);
+                    // $index = 0;
+                    $stmt = "SELECT * 
+                    FROM `prescriptions`, `drugs` 
+                    WHERE prescriptions.Drug = drugs.Id 
+                    AND Patient = '".$_SESSION['username']."'";
+                    $result = mysqli_query($mysqli,$stmt);
+                    $pa = array();
+                    // $timeLeft = array();
+                    while ($x = mysqli_fetch_array($result)){
+                        $pa[] = $x;
+                    }
+                    foreach ($pa as $i){
+
+                        // $lastTaken = strtotime($i['LastTaken']); 
+
+                        // $dosage = ($i['Dosage'] - 1) * 3600;
+                        $nextTakeIn = strtotime($i['LastTaken']) + ($i['Dosage'] - 1) * 3600;
+                        $id = $i['Id'];
+                        $time = time() + 3600;
+                        
+                        $timeLeft =  (strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600);
+                        
+                        // echo "timeLeft = " .$timeLeft."<br><br>";
+                        // echo "lastTaken =".date('H:i:s', $lastTaken)."<br>"; 
+                        // echo "dosage =".$dosage."<br>";
+                        // echo "next =".date('H:i:s',$nextTakeIn)."<br>";
+                        $t = "success";
+
+                        printf("<tr id='x'class='st'><td id='y'>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['Doctor'], date('H:i:s d-m', $nextTakeIn), date('H:i:s',$timeLeft));
+
+                        echo("<p hidden> tl = $timeLeft</p>");
+                        
+                        if ($timeLeft <= 30) {
+                            $t = "warning";
+                        }
+                        elseif ($timeLeft <= 10) {
+                            $t = "danger";
+                        }
+                        elseif ($timeLeft <= 0) {
+
+                            $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = $id";
+                            $stmt3 = $mysqli->prepare($sql);
+                            $stmt3->execute();
+                        } 
                     }
                     ?>
+                    <script type="text/javascript">
+                    function update(){
+                        st = "success";
+                        var d = new Date();
+                        var n = d.getTime();
+                        // var tl = $timeLeft;
+                        if (tl==0)
+                            notify(document.getElementById('y').innerHTML);
+                        if (Math.abs(tl<30)
+                            document.getElementById('x').style.backgroundColor='orange';
+                        else if (tl<10)
+                            document.getElementById('x').style.backgroundColor='red';
+                        else
+                            document.getElementById('x').style.backgroundColor='green';
+                    }
+                    
+
+                    // function notify(x)
+                    // {
+                    //     alert("Please take your "+y);
+                    // }
+                    </script>
                 </tbody>
             </table>
         </div>
@@ -88,7 +164,7 @@ sec_session_start();
             AND PUsername = '".$_SESSION['username']."'";
             $result1 = mysqli_query($mysqli,$stmt1);
             while ($i = mysqli_fetch_array($result1))
-                $p[] = $i;
+                $pa[] = $i;
             ?>
 
             <table class="table">
@@ -100,7 +176,7 @@ sec_session_start();
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($p as $i) {
+                    foreach ($pa as $i) {
                         printf("<tr> <td>%s</td> <td>%s</td> </tr>\n", $i['username'], $i['email']);
                     }
                     ?>
@@ -137,6 +213,13 @@ sec_session_start();
     </div>
 
 </div>
+<script type="text/javascript">
+update();       
+setInterval('update()',1000);
+document.getElementById('x').innerHTML=1;
+
+</script>
+
 
 </body>
 </html>

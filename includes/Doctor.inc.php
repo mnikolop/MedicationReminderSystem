@@ -1,88 +1,44 @@
 <?php
 include_once 'db_connect.php';
 include_once 'psl-config.php';
- 
+
 $error_msg = "";
 
-$stmt1 = $mysqli->prepare("INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage) VALUES (?, ?, ?, ?)");
-$stmt1->bind_param("sisi", $Doctor, $Drug, $Patient, $Dosage);
+//the code for insearting a new 
+$stmt1 = $mysqli->prepare("INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage, LastTaken) VALUES (?, ?, ?, ?, ?)");
+$stmt1->bind_param("sisii", $doctor, $drug, $patient, $dosage, $lastTaken);
 
-//$stmt2 = "INSERT INTO `drugs`(`Name`, `Id`, `Substance`, `Content`, `Description`, `Take`) VALUES (?, ?, ?, ?, ?, ?)";
+if (isset($_POST['drug'], $_POST['patient'], $_POST['dosage'])) {
 
-if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
 
-   
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // Not a valid email
-        $error_msg .= '<p class="error">The email address you entered is not valid</p>';
-    }
- 
-    $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
-    if (strlen($password) != 128) {
+    $drug = filter_input(INPUT_POST, 'drug', FILTER_SANITIZE_STRING);
+    $patient = filter_input(INPUT_POST, 'patient', FILTER_SANITIZE_STRING);
+    $dosage = filter_input(INPUT_POST, 'dosage', FILTER_SANITAZE_NUMBER_INT);
+    $doctor = $_SESSION['username'];
+    $lastTaken = time();
 
-        $error_msg .= '<p class="error">Invalid password configuration.</p>';
-    }
-
-    
-    $capacity = 'patient';
-
-    $prep_stmt = "SELECT id FROM members WHERE email = ? LIMIT 1";
-    $stmt = $mysqli->prepare($prep_stmt);
- 
-    if ($stmt) {
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $stmt->store_result();
- 
-        if ($stmt->num_rows == 1) {
-  
-            $error_msg .= '<p class="error">A user with this email address already exists.</p>';
-                        $stmt->close();
-        }
-                $stmt->close();
-    } else {
-        $error_msg .= '<p class="error">Database error Line 39</p>';
-                $stmt->close();
-    }
-
-    $prep_stmt = "SELECT id FROM members WHERE username = ? LIMIT 1";
-    $stmt = $mysqli->prepare($prep_stmt);
- 
-    if ($stmt) {
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $stmt->store_result();
- 
-                if ($stmt->num_rows == 1) {
-
-                        $error_msg .= '<p class="error">A user with this username already exists</p>';
-                        $stmt->close();
-                }
-                $stmt->close();
-        } else {
-                $error_msg .= '<p class="error">Database error line 55</p>';
-                $stmt->close();
-        }
- 
-if (empty($error_msg)) {
-        // Create a random salt
-        //$random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE)); // Did not work
-        $random_salt = hash('sha512', uniqid(mt_rand(1, mt_getrandmax()), true));
- 
-        // Create salted password 
-        $password = hash('sha512', $password . $random_salt);
- 
         // Insert the new user into the database 
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, capacity, password, salt) VALUES (?, ?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('sssss', $username, $email, $capacity, $password, $random_salt);
-            //$insert_stmt->execute(); // Execute the prepared query.
+     if ($insert_stmt = $mysqli->prepare("INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage) VALUES (?, ?, ?, ?)")) {
+            $insert_stmt->bind_param('sisi', $doctor, $drug, $patient, $dosage);            
             if (! $insert_stmt->execute()) {
-                header('Location: ../error.php?err=Registration failure: INSERT');
+                header('Location: #');
             }
         }
-        header('Location: ./register_success.php');
-    }
+        echo "Error making perscription";
 }
+
+// //the code for insearting a patient in the temp table for the admin to review 
+// $stmt2 = $mysqli->prepare("INSERT INTO admin_temp (DUsername, PUsername) VALUES (?, ?)");
+// $stmt2->bind_param("ss", $dusername, $pusername);
+
+// if ($_POST['add_patient']) {
+
+//     $pusername = filter_input(INPUT_POST, 'add_patient', FILTER_SANITIZE_STRING);
+//     $doctor = $_SESSION['username'];
+
+//         // Insert the new user into the database 
+//     // if ($insert_stmt = $mysqli->prepare("INSERT INTO members (Doctor, Drug, Patient, Dosage) VALUES (?, ?, ?, ?)")) {
+//     //     $insert_stmt->bind_param('sisi', $doctor, $drug, $patient, $dosage;
+//     $stmt2->execute(); // Execute the prepared query.
+// }
+

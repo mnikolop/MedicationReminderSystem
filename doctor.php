@@ -1,7 +1,7 @@
 <?php
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
-include_once 'includes/Doctor.inc.php';
+// include_once 'includes/Doctor.inc.php';
 
 sec_session_start();
 ?>
@@ -9,7 +9,7 @@ sec_session_start();
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Patient's page</title>  
+    <title>Doctor's page</title>  
     <script type="text/JavaScript" src="js/sha512.js"></script> 
     <script type="text/JavaScript" src="js/forms.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- defining responsivnes in mobile devices -->
@@ -27,7 +27,7 @@ sec_session_start();
         </div>
         <div class="container-fluid">
             <div class=" col-md-2" role="complementary">
-                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                     <ul class="nav bs-docs-sidenav">
                         <li>
                             <a href="#present">Allready Given Therapies</a>
@@ -36,10 +36,10 @@ sec_session_start();
                             <a href="#asignment">Asigne a Therapy to a Patient</a>
                         </li>
                         <li>
-                            <a href="#register">Register a NEW Patient</a>
+                            <a href="new_therapy.php">Register a NEW Therapy</a>
                         </li>
                         <li>
-                            <a href="#therapy">Register a NEW Therapy</a>
+                            <a href="add_patient.php">Add a Patient to the patient list</a>
                         </li>
                         <li>
                             <a href="#profile">Profile</a>
@@ -53,8 +53,8 @@ sec_session_start();
                         </li>
                     </ul>
                 </nav>
-
             </div>  
+
             <div class="col-md-10">
                 <div class="bs-docs-section">
                     <h2 id="present" class="page-header">Your Patietnts and theis Dosages</h2>
@@ -72,7 +72,7 @@ sec_session_start();
                             <tr>
                                 <th>Patient</th>
                                 <th>Drug</th>
-                                <th>Dosage</th>
+                                <th>Every # Hour(s)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,37 +88,57 @@ sec_session_start();
                 <div class="bs-docs-section">
                     <h2 id="asignment" class="page-header">Asigne a Therapy to a Patient</h2>           
 
-                    <form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>" 
-                        method="post" 
-                        name="doctor_form">
-                    
+                    <form action="insert" 
+                    method="post" 
+                    name="doctor_form">
+
                     <?php
+                    function insert (){
+                        $stmt1 = $mysqli->prepare("INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage, LastTaken) VALUES (?, ?, ?, ?, ?)");
+                        $stmt1->bind_param("sisii", $doctor, $drug, $patient, $dosage, $lastTaken);
 
-                        $sql1 = "SELECT PUsername
-                        FROM `treated`
-                        WHERE DUsername = '".$_SESSION['username']."'";
-                        $results1 = mysqli_query($mysqli, $sql1);
-                        while ($i = mysqli_fetch_array($results1))
-                            $patients[] = $i;
+                        $drug = filter_input(INPUT_POST, 'drug', FILTER_SANITIZE_STRING);
+                        $patient = filter_input(INPUT_POST, 'patient', FILTER_SANITIZE_STRING);
+                        $dosage = filter_input(INPUT_POST, 'dosage', FILTER_SANITAZE_NUMBER_INT);
+                        $doctor = $_SESSION['username'];
+                        $lastTaken = time();
 
-                   // $sql2 = 'SELECT * 
-                   //          FROM Drugs';
-                   //  $results2 = mysql_query($mysqli, $results2);
-                   // while ($i = mysql_fetch_array($results2))
-                   //     $drugs[] = $i;
-                     ?>
-                     <h3>Patient Useraname: </h3>
-                     <select name='patient' id='patient' class="form-control input-lg">
+                        $stmt1->execute();
+                    }
+                    ?>
+
+                    <?php
+                    $sql1 = "SELECT PUsername
+                    FROM `treated`
+                    WHERE DUsername = '".$_SESSION['username']."'";
+                    $results1 = mysqli_query($mysqli, $sql1);
+                    while ($i = mysqli_fetch_array($results1))
+                        $patients[] = $i;
+                    ?>
+
+                    <h3>Patient Useraname: </h3>
+                    <select name='patient' id='patient' class="form-control input-lg">
                         <?php
                         foreach($patients as $patient)
-                            ?>
+                            printf("<option>%s</option>", $patient['PUsername']);
+                        ?>
                     </select>
                     <br>
+
+                    <?php 
+                    $sql2 = "SELECT * 
+                    FROM Drugs
+                    WHERE DUsername = '".$_SESSION['username']."'";
+                    $results2 = mysqli_query($mysqli, $sql2);
+                    while ($j = mysqli_fetch_array($results2))
+                        $drugs[] = $j;
+                    ?>
+
                     <h3>Drug Name:</h3> 
                     <select name='drug' id='drug' class="form-control input-lg">
                         <?php
                         foreach($drugs as $drug)
-                            echo "<option value='".$drug['Id']."'>".$drug['Name']."</option>\n"
+                            printf("<option> %s</option>", $drug['Name']);
                         ?>
                     </select>
                     <br>
@@ -135,75 +155,36 @@ sec_session_start();
                         <option value='12'>every 12 hours</option>
                     </select>
                     <br>
-                    <input type="button" class="btn btn-default btn-lg" value="Submit" onclick="return docformhash(this.form,
-                    this.form.,
-                    this.form.,
-                    this.form.,
-                    this.form.drug,
-                    this.form.dosage);" /> 
-                </div>
+                    <input type="button" class="btn btn-default btn-lg" value="Submit" />
+                </form> 
+            </div>
 
-                <div class="bs-docs-section">
-                    <h3 id="register" class="page-header">Register a NEW Patient</h3>
-                    <h3>Username:</h3> <input type='text' name='username' id='username' class="form-control input-lg" /><br>
-                    <h3>Email:</h3> <input type="text" name="email" id="email" class="form-control input-lg" /><br>
-                    <h3>Password:</h3> <input type="password" name="password" id="password" class="form-control input-lg" /><br>
-                    <h3>Confirm password:</h3> <input type="password" name="confirmpwd" id="confirmpwd" class="form-control input-lg" /><br>
-
-                    <br>
-                    <input type="button" class="btn btn-default btn-lg" value="Register" onclick="return docregformhash(this.form,
-                    this.form.username,
-                    this.form.email,
-                    this.form.password,
-                    this.form.confirmpwd);"/> 
-                </div>
-
-                <div class="bs-docs-section">
-                    <h3 id="therapy" class="page-header">Register a NEW Therapy</h3>
-                   
-                    <h3>Name</h3> <input type="text" name="name" id="name" class="form-control input-lg"/>
-                    <h3>Substance</h3> <input type="text" name="substance"  id="substance" class="form-control input-lg"/>
-                    <h3>Content</h3> <input type="text" name="content" id="content" class="form-control input-lg"/>
-                    <h3>Sort description/ Site with side effects</h3> <textarea name="effects" id="effects" class="form-control input-lg"></textarea>
-                    <h3>Can the patient take the therapy pefore the designated time?</h3>
-                    <h4> <input type="radio" name="take" id="take" value="yes" /> Yes</h4>
-                    <h4> <input type="radio" name="take" id="take" value="no" /> No</h4>
-                    <br>
-                    <input type="button" class="btn btn-default btn-lg" value="Register" onclick="return docformhash(this.form,
-                    this.form.name,
-                    this.form.substance,
-                    this.form.content,
-                    this.form.effects,
-                    this.form.take);"/> 
-                        </form>
-                </div>
-
-                <div class="bs-docs-section">
-                    <h3 id="profile" class="page-header">Profile</h3>
-                       <?php 
-                            $stmt2 = "SELECT * 
-                            FROM `members` 
-                            WHERE username = '".$_SESSION['username']."'";
-                            $result = mysqli_query($mysqli, $stmt2);
-                            $i = mysqli_fetch_array($result);
-                       ?>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>e-mail</th>
-                                <th>Capacity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <td> <?php echo $i['username']; ?> </td>
-                            <td> <?php echo $i['email']; ?> </td>
-                            <td> <?php echo $i['capacity']; ?> </td>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="bs-docs-section">
+                <h3 id="profile" class="page-header">Profile</h3>
+                <?php 
+                $stmt2 = "SELECT * 
+                FROM `members` 
+                WHERE username = '".$_SESSION['username']."'";
+                $result = mysqli_query($mysqli, $stmt2);
+                $i = mysqli_fetch_array($result);
+                ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>e-mail</th>
+                            <th>Capacity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <td> <?php echo $i['username']; ?> </td>
+                        <td> <?php echo $i['email']; ?> </td>
+                        <td> <?php echo $i['capacity']; ?> </td>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

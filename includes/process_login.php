@@ -32,6 +32,11 @@ if (isset($_POST['username'], $_POST['p'])) {
                 //echo $capacity;
                 header('Location: ../Doctor.php');
             }
+            elseif ($capacity == "admin")
+            {   
+                //echo $capacity;
+                header('Location: ../Admin.php');
+            }
         
     }
 } else {
