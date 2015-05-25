@@ -33,7 +33,22 @@ if (login_check($mysqli) == true) {
         </div>
 
         <div class="container-fluid" >
-            <div class="col-md-4">
+            <div class=" col-md-2" role="complementary">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+                    <ul class="nav bs-docs-sidenav">
+
+                        <li class="">
+                            <?php echo '<a href="register.php">Register</a>'; ?>
+                        </li>
+
+                        <li>
+                            <a href="#">Back to the top of the Page</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+             <div class="col-md-6">
                 <?php
                 if (isset($_GET['error'])) {
                     echo '<h3 class="error">Error Logging In!</h3>';

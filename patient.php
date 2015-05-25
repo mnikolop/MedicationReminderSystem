@@ -34,7 +34,7 @@ sec_session_start();
             </h1>
         </div>
         <div class="container-fluid">
-           <div class=" col-md-2" role="complementary">
+         <div class=" col-md-2" role="complementary">
             <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                 <ul class="nav bs-docs-sidenav">
                     <li>
@@ -44,15 +44,15 @@ sec_session_start();
                         <a href="#doctors">Doctors</a>
                     </li>
                     <li>
-                        <a href="#">Add a new Doctor to the doctor list</a>
+                        <a href="add_doctor.php">Add a new Doctor to the doctor list</a>
                     </li>
                     <li>
                         <a href="#profile">Profile</a>
                     </li>
                     <li class="">
-                     <?php echo '<a href="includes/logout.php">Log Out</a>' ?>
-                 </li>
-                 <li>
+                       <?php echo '<a href="includes/logout.php">Log Out</a>' ?>
+                   </li>
+                   <li>
                     <a href="#">Back to the top of the Page</a>
                 </li>
             </ul>
@@ -116,18 +116,67 @@ sec_session_start();
 
                         echo("<p hidden> tl = $timeLeft</p>");
                         
-                        if ($timeLeft <= 30) {
+                        if ($timeLeft <= strtotime(30)) {
                             $t = "warning";
+                            echo "agadfg";
                         }
-                        elseif ($timeLeft <= 10) {
+                        elseif ($timeLeft <= strtotime(10)) {
                             $t = "danger";
+                            echo "string";
                         }
-                        elseif ($timeLeft <= 0) {
+                        elseif ($timeLeft = strtotime(0)) {
 
                             $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = $id";
                             $stmt3 = $mysqli->prepare($sql);
                             $stmt3->execute();
+
+
+                            // Include the Twilio PHP library
+                            require 'Services/Twilio.php';
+
+                            // Twilio REST API version
+                            $version = "2010-04-01";
+
+                            // Set our Account SID and AuthToken
+                            $sid = 'ACe1eba0a045df901297dfc4ce0de51de2';
+                            $token = '53c19ce2566b5d1f19ec8f733f98c28a';
+
+                            // A phone number you have previously validated with Twilio
+                            $phonenumber = '+306976928623';
+
+                            // Instantiate a new Twilio Rest Client
+                            $client = new Services_Twilio($sid, $token, $version);
+
+                            $sql2 = "SELECT telephone 
+                                        FROM `members` 
+                                        WHERE username = '".$_SESSION['username']."'"; 
+                    
+                            // $res = mysqli_query($mysqli,$sql2);
+                            // while ($x = mysqli_fetch_array($res)){
+                            //     $c[] = $x;
+                            // }
+                            // $cn = array("+30", $x['telephone']);
+                            // $callnumber = implode( $cn );
+
+                            // echo date('H:i:s',$timeLeft)."<br>";
+                            // echo $x['telephone'] ."<br>";
+
+
+                            try {
+                            // Initiate a new outbound call
+                                $call = $client->account->calls->create(
+                                                                $phonenumber, // The number of the phone initiating the call
+                                                                '+306976928623', // The number of the phone receiving call
+                                                                'http://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
+                                                                    );
+                                echo 'Started call: ' . $call->sid;
+                            } catch (Exception $e) {
+                                echo 'Error: ' . $e->getMessage();
+                            }
                         } 
+                        else{
+                            echo date('H:i:s',$timeLeft);
+                        }
                     }
                     ?>
                     <script type="text/javascript">
@@ -140,12 +189,12 @@ sec_session_start();
                             notify(document.getElementById('y').innerHTML);
                         if (Math.abs(tl<30)
                             document.getElementById('x').style.backgroundColor='orange';
-                        else if (tl<10)
-                            document.getElementById('x').style.backgroundColor='red';
-                        else
-                            document.getElementById('x').style.backgroundColor='green';
-                    }
-                    
+                            else if (tl<10)
+                                document.getElementById('x').style.backgroundColor='red';
+                            else
+                                document.getElementById('x').style.backgroundColor='green';
+                        }
+
 
                     // function notify(x)
                     // {
@@ -158,7 +207,7 @@ sec_session_start();
         <div class="bs-docs-section">
             <h3 id="doctors" class="page-header">Doctors</h3>
             <?php 
-            $stmt1 = "SELECT * 
+            $stmt1 = "SELECT `username` ,`email`,`telephone`  
             FROM `treated`, `members`
             WHERE treated.DUsername = members.username
             AND PUsername = '".$_SESSION['username']."'";

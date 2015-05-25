@@ -1,0 +1,7 @@
+@{
+    Response.ContentType = "text/xml";
+    
+    var twiml = new Twilio.TwiML.TwilioResponse();
+    twiml.Play(Request["url"]);
+}
+@Html.Raw(twiml.ToString())

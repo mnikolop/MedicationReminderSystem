@@ -88,103 +88,104 @@ sec_session_start();
                 <div class="bs-docs-section">
                     <h2 id="asignment" class="page-header">Asigne a Therapy to a Patient</h2>           
 
-                    <form action="insert" 
-                    method="post" 
-                    name="doctor_form">
+                    <form action= "#" method= "POST" >
 
-                    <?php
-                    function insert (){
-                        $stmt1 = $mysqli->prepare("INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage, LastTaken) VALUES (?, ?, ?, ?, ?)");
-                        $stmt1->bind_param("sisii", $doctor, $drug, $patient, $dosage, $lastTaken);
-
-                        $drug = filter_input(INPUT_POST, 'drug', FILTER_SANITIZE_STRING);
-                        $patient = filter_input(INPUT_POST, 'patient', FILTER_SANITIZE_STRING);
-                        $dosage = filter_input(INPUT_POST, 'dosage', FILTER_SANITAZE_NUMBER_INT);
-                        $doctor = $_SESSION['username'];
-                        $lastTaken = time();
-
-                        $stmt1->execute();
-                    }
-                    ?>
-
-                    <?php
-                    $sql1 = "SELECT PUsername
-                    FROM `treated`
-                    WHERE DUsername = '".$_SESSION['username']."'";
-                    $results1 = mysqli_query($mysqli, $sql1);
-                    while ($i = mysqli_fetch_array($results1))
-                        $patients[] = $i;
-                    ?>
-
-                    <h3>Patient Useraname: </h3>
-                    <select name='patient' id='patient' class="form-control input-lg">
                         <?php
-                        foreach($patients as $patient)
-                            printf("<option>%s</option>", $patient['PUsername']);
+                        $sql1 = "SELECT PUsername
+                        FROM `treated`
+                        WHERE DUsername = '".$_SESSION['username']."'";
+                        $results1 = mysqli_query($mysqli, $sql1);
+                        while ($i = mysqli_fetch_array($results1))
+                            $patients[] = $i;
                         ?>
-                    </select>
-                    <br>
 
+                        <h3>Patient Useraname: </h3>
+                        <select name='patient' id='patient' class="form-control input-lg">
+                            <?php
+                            foreach($patients as $patient)
+                                printf("<option>%s</option>", $patient['PUsername']);
+                            ?>
+                        </select>
+                        <br>
+
+                        <?php 
+                        $sql2 = "SELECT * 
+                        FROM Drugs
+                        WHERE DUsername = '".$_SESSION['username']."'";
+                        $results2 = mysqli_query($mysqli, $sql2);
+                        while ($j = mysqli_fetch_array($results2))
+                            $drugs[] = $j;
+                        ?>
+
+                        <h3>Drug Name:</h3> 
+                        <select name='drug' id='drug' class="form-control input-lg">
+                            <?php
+                            foreach($drugs as $drug)
+                                printf("<option> %s %s</option>", $drug['Id'], $drug['Name']);
+                            ?>
+                        </select>
+                        <br>
+                        <h3>Dosage</h3>
+                        <select name='dosage' class="form-control input-lg">
+                            <option value='1'>every 1 hour</option>
+                            <option value='2'>every 2 hours</option>
+                            <option value='3'>every 3 hours</option>
+                            <option value='4'>every 4 hours</option>
+                            <option value='5'>every 5 hours</option>
+                            <option value='6'>every 6 hours</option>
+                            <option value='7'>every 7 hours</option>
+                            <option value='8'>every 8 hours</option>
+                            <option value='12'>every 12 hours</option>
+                        </select>
+                        <?php
+                        if (isset($_POST['patient'])){
+                                $sql= "INSERT INTO prescriptions (Doctor, Drug, Patient, Dosage, LastTaken)
+                                VALUES ('".$_SESSION['username']."', '".$_POST['drug']."', '".$_POST['patient']."', '".$_POST['dosage']."', CURRENT_TIMESTAMP)";
+
+                                $ret = mysqli_query($mysqli, $sql);
+
+                                if (!$ret)
+                                {
+                                    die('Error: ' . mysqli_error($mysqli));
+                                }
+                                else {
+                                    echo "1 record added";
+
+                                    echo(rand() . "<br />");
+                                }                               
+                           }
+                            ?>
+                        <br>
+                        <input type="Submit" class="btn btn-default btn-lg" value="Submit" />
+                    </form> 
+                </div>
+
+                <div class="bs-docs-section">
+                    <h3 id="profile" class="page-header">Profile</h3>
                     <?php 
-                    $sql2 = "SELECT * 
-                    FROM Drugs
-                    WHERE DUsername = '".$_SESSION['username']."'";
-                    $results2 = mysqli_query($mysqli, $sql2);
-                    while ($j = mysqli_fetch_array($results2))
-                        $drugs[] = $j;
+                    $stmt2 = "SELECT * 
+                    FROM `members` 
+                    WHERE username = '".$_SESSION['username']."'";
+                    $result = mysqli_query($mysqli, $stmt2);
+                    $i = mysqli_fetch_array($result);
                     ?>
-
-                    <h3>Drug Name:</h3> 
-                    <select name='drug' id='drug' class="form-control input-lg">
-                        <?php
-                        foreach($drugs as $drug)
-                            printf("<option> %s</option>", $drug['Name']);
-                        ?>
-                    </select>
-                    <br>
-                    <h3>Dosage</h3>
-                    <select name='dosage' class="form-control input-lg">
-                        <option value='1'>every 1 hour</option>
-                        <option value='2'>every 2 hours</option>
-                        <option value='3'>every 3 hours</option>
-                        <option value='4'>every 4 hours</option>
-                        <option value='5'>every 5 hours</option>
-                        <option value='6'>every 6 hours</option>
-                        <option value='7'>every 7 hours</option>
-                        <option value='8'>every 8 hours</option>
-                        <option value='12'>every 12 hours</option>
-                    </select>
-                    <br>
-                    <input type="button" class="btn btn-default btn-lg" value="Submit" />
-                </form> 
-            </div>
-
-            <div class="bs-docs-section">
-                <h3 id="profile" class="page-header">Profile</h3>
-                <?php 
-                $stmt2 = "SELECT * 
-                FROM `members` 
-                WHERE username = '".$_SESSION['username']."'";
-                $result = mysqli_query($mysqli, $stmt2);
-                $i = mysqli_fetch_array($result);
-                ?>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>e-mail</th>
-                            <th>Capacity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <td> <?php echo $i['username']; ?> </td>
-                        <td> <?php echo $i['email']; ?> </td>
-                        <td> <?php echo $i['capacity']; ?> </td>
-                    </tbody>
-                </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>e-mail</th>
+                                <th>Capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td> <?php echo $i['username']; ?> </td>
+                            <td> <?php echo $i['email']; ?> </td>
+                            <td> <?php echo $i['capacity']; ?> </td>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

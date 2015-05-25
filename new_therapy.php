@@ -9,7 +9,7 @@ sec_session_start();
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Patient's page</title>  
+    <title>Add a new therapy</title>  
     <script type="text/JavaScript" src="js/sha512.js"></script> 
     <script type="text/JavaScript" src="js/forms.js"></script> 
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- defining responsivnes in mobile devices -->
@@ -58,24 +58,37 @@ sec_session_start();
             <div class="col-md-10">
                 <div class="bs-docs-section">
                     <h3 id="therapy" class="page-header">Register a NEW Therapy</h3>
-                    <form action="#" 
-                        method="post" 
-                        name="doctor_form">
+                    <form action= "#" method= "POST" >
 
                         <h3>Name</h3> <input type="text" name="name" id="name" class="form-control input-lg"/>
                         <h3>Substance</h3> <input type="text" name="substance"  id="substance" class="form-control input-lg"/>
-                        <h3>Content</h3> <input type="text" name="content" id="content" class="form-control input-lg"/>
+                        <h3>Content (in mg)</h3> <input type="text" name="content" id="content" class="form-control input-lg"/>
                         <h3>Sort description/ Site with side effects</h3> <textarea name="effects" id="effects" class="form-control input-lg"></textarea>
                     <!-- <h3>Can the patient take the therapy pefore the designated time?</h3>
                     <h4> <input type="radio" name="take" id="take" value="yes" /> Yes</h4>
                     <h4> <input type="radio" name="take" id="take" value="no" /> No</h4> -->
+                    <?php
+                    if (isset($_POST['name'])){
+                        $sql= "INSERT INTO drugs (Name, Substance, Content, Description, DUsername)
+                        VALUES ('".$_POST['name']."', '".$_POST['substance']."', '".$_POST['content']."', '".$_POST['effects']."', '".$_SESSION['username']."')";
+
+                        $ret = mysqli_query($mysqli, $sql);
+
+                        if (!$ret)
+                        {
+                            die('Error: ' . mysqli_error($mysqli));
+                        }
+                        else {
+                            echo "1 record added";
+
+                            echo(rand() . "<br />");
+                        }                               
+                    }
+                    ?>
                     <br>
-                    <input type="button" class="btn btn-default btn-lg" value="Register" onclick="return docTherapyFormHash(this.form,
-                    this.form.name,
-                    this.form.substance,
-                    this.form.content,
-                    this.form.effects);"/> 
+                <input type="Submit" class="btn btn-default btn-lg" value="Submit" />
                 </form>
+                
             </div>
         </div>
     </div>
