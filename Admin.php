@@ -42,12 +42,13 @@ sec_session_start();
                 </nav>
             </div>
             <div class="col-md-10">
-                <h5>If a row is double there will be the oportunity to insert it in the therapies table </h5>
+               <!--  <h5>If a row is double there will be the oportunity to insert it in the therapies table </h5> -->
 
                 <div class="bs-docs-section">
 
                     <table class="table">
-
+                        <caption>This table contines all the requests for conection betwen an doctor and a patient. 
+                            If a row is double AND the origin is once from the doctor and the other from the patient it must be insearted in the therapies table </caption>
                         <thead>
                             <tr>
                                 <th>Check</th>
@@ -66,7 +67,7 @@ sec_session_start();
                             while ($i = mysqli_fetch_array($result))
                                 $p[] = $i;
                             foreach ($p as $i) {
-                                printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",'<input type="checkbox" name="entry" value="('.$i['DUsername'].','.$i['PUsername'].')">' , $i['PUsername'],$i['DUsername'], $i['SubmitedBy']);
+                                printf("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",'<input type="checkbox" name="entry" value="('.$i['DUsername'].','.$i['PUsername'].')">' , $i['PUsername'], $i['DUsername'], $i['SubmitedBy']);
                             }
                     // something about implode to make it make multiple entries
                             if (isset($_POST['entry'])){

@@ -61,7 +61,7 @@ sec_session_start();
     </div>  
     <div class="col-md-10">
         <div class="bs-docs-section">
-            <h3 id="therapies" class="page-header">Therapies</h3>
+            <h3 id="therapies" class="page-header">Therapies<small> In this section you can review alla the prescriptions and the time left to take them</small></h3>
             
             <?php 
             // $t = time();
@@ -73,6 +73,7 @@ sec_session_start();
             ?>
             <table class="table">
                 <thead>
+                    <caption> This table containes alla the prescriptions, the given dosage, the prescribing doctor, the time of the last intake and the time left for the next intake</caption>
                     <tr>
                         <th>Drug</th>
                         <th>Dosage</th>
@@ -174,9 +175,6 @@ sec_session_start();
                                 echo 'Error: ' . $e->getMessage();
                             }
                         } 
-                        else{
-                            echo date('H:i:s',$timeLeft);
-                        }
                     }
                     ?>
                     <script type="text/javascript">
@@ -205,7 +203,7 @@ sec_session_start();
             </table>
         </div>
         <div class="bs-docs-section">
-            <h3 id="doctors" class="page-header">Doctors</h3>
+            <h3 id="doctors" class="page-header">Doctors <small>Here are all the doctors that have you under their care</small></h3>
             <?php 
             $stmt1 = "SELECT `username` ,`email`,`telephone`  
             FROM `treated`, `members`
@@ -218,6 +216,7 @@ sec_session_start();
 
             <table class="table">
                 <thead>
+                    <caption>THis table containes all the usernames and e-mail of the doctors that have you under thir care</caption>
                     <tr>
                         <th>Doctor</th>
                         <th>e-mail</th>
@@ -225,15 +224,15 @@ sec_session_start();
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($pa as $i) {
-                        printf("<tr> <td>%s</td> <td>%s</td> </tr>\n", $i['username'], $i['email']);
+                    foreach ($pa as $z) {
+                        printf("<tr> <td>%s</td> <td>%s</td> </tr>\n", $z['username'], $z['email']);
                     }
                     ?>
                 </tbody>
             </table>
         </div>
         <div class="bs-docs-section">
-            <h3 id="profile" class="page-header">Profile</h3>
+            <h3 id="profile" class="page-header">Profile<small> Here you can see the information whith which you registered</small></h3>
             <?php 
             $stmt2 = "SELECT * 
             FROM `members` 
@@ -243,6 +242,7 @@ sec_session_start();
             ?>
             <table class="table">
                 <thead>
+                    <caption>In this table you can see the informationn you have given during your registration.</caption>
                     <tr>
                         <th>Username</th>
                         <th>e-mail</th>

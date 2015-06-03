@@ -55,9 +55,9 @@ if (login_check($mysqli) == true) {
                 }
                 ?> 
                 <form action="includes/process_login.php" method="post" name="login_form">                      
-                    <h3>Username:</h3> <input type="text" name="username" class="form-control input-lg" />
+                    <h3>Username: <small>Here insert the username from your registration</small></h3> <input type="text" name="username" class="form-control input-lg" />
                     <br>
-                    <h3>Password:</h3> <input type="password" name="password" id="password" class="form-control input-lg" />
+                    <h3>Password: <small>Here insert the password from your registration</small></h3> <input type="password" name="password" id="password" class="form-control input-lg" />
                     <br>
 
                     <input type="button" class="btn btn-default btn-lg" value="Login" onclick="formhash(this.form, this.form.password);"  /> 

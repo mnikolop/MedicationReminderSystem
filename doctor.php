@@ -57,7 +57,7 @@ sec_session_start();
 
             <div class="col-md-10">
                 <div class="bs-docs-section">
-                    <h2 id="present" class="page-header">Your Patietnts and theis Dosages</h2>
+                    <h2 id="present" class="page-header">Your Patietnts and theis Dosages <small>Here you can see all the prescriptions you have administered</small></h2>
                     <?php 
                     $stmt = "SELECT * 
                     FROM `prescriptions`, `drugs` 
@@ -69,6 +69,7 @@ sec_session_start();
                     ?>
                     <table class="table">
                         <thead>
+                            <caption>Thisa table contain the username of the patient the drug that was prescribed ans the dosage in hours</caption>
                             <tr>
                                 <th>Patient</th>
                                 <th>Drug</th>
@@ -86,7 +87,7 @@ sec_session_start();
                 </div>
 
                 <div class="bs-docs-section">
-                    <h2 id="asignment" class="page-header">Asigne a Therapy to a Patient</h2>           
+                    <h2 id="asignment" class="page-header">Asigne a Therapy to a Patient <small>Here you can make a new prescription to one of your patients</small></h2>           
 
                     <form action= "#" method= "POST" >
 
@@ -99,7 +100,7 @@ sec_session_start();
                             $patients[] = $i;
                         ?>
 
-                        <h3>Patient Useraname: </h3>
+                        <h3>Patient Useraname: <small>The usernames of all the patient already in your patient list</small></h3>
                         <select name='patient' id='patient' class="form-control input-lg">
                             <?php
                             foreach($patients as $patient)
@@ -117,7 +118,7 @@ sec_session_start();
                             $drugs[] = $j;
                         ?>
 
-                        <h3>Drug Name:</h3> 
+                        <h3>Drug Name: <small>The unique Id's and names of the therapies you have entered in the system.</small></h3> 
                         <select name='drug' id='drug' class="form-control input-lg">
                             <?php
                             foreach($drugs as $drug)
@@ -125,7 +126,7 @@ sec_session_start();
                             ?>
                         </select>
                         <br>
-                        <h3>Dosage</h3>
+                        <h3>Dosage <small>The dosage of the prescription in hours (1-8,12,24 hours)</small></h3>
                         <select name='dosage' class="form-control input-lg">
                             <option value='1'>every 1 hour</option>
                             <option value='2'>every 2 hours</option>
@@ -136,6 +137,7 @@ sec_session_start();
                             <option value='7'>every 7 hours</option>
                             <option value='8'>every 8 hours</option>
                             <option value='12'>every 12 hours</option>
+                            <option value='12'>every 24 hours</option>
                         </select>
                         <?php
                         if (isset($_POST['patient'])){
@@ -161,7 +163,7 @@ sec_session_start();
                 </div>
 
                 <div class="bs-docs-section">
-                    <h3 id="profile" class="page-header">Profile</h3>
+                    <h3 id="profile" class="page-header">Profile <small>Here you can see the information you geve upon registration</small></h3>
                     <?php 
                     $stmt2 = "SELECT * 
                     FROM `members` 
@@ -171,6 +173,7 @@ sec_session_start();
                     ?>
                     <table class="table">
                         <thead>
+                            <caption>Here you can see the information you geve upon registration</caption>
                             <tr>
                                 <th>Username</th>
                                 <th>e-mail</th>

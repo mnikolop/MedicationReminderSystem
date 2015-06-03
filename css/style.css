@@ -11,21 +11,3 @@ body{
 }
 
 
-/* form styling */
-
-
-/* login container styling */
-
-
-/* doctor page styling */
-#doctor{
-
-}
-
-/* footer styling */
-.navbar-fixed-bottom{
-    font-size: 10px;
-    margin-bottom: 0;
-    background: transparent;
-    border-top: none;
-}

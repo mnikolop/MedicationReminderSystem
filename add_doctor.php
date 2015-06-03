@@ -54,18 +54,19 @@ sec_session_start();
 
             <div class="col-md-10">
                 <div class="bs-docs-section">
-                    <h2 id="present" class="page-header">Add a new Patent in your patient list</h2>
+                    <h2 id="present" class="page-header">Add a new Doctor in your doctor list</h2>
                     
 
-                    <h3>Select the patients that you want to add to you aptient list 
+                   <!--  <h3>Select the patients that you want to add to you aptient list 
                         <br>
-                        <small>The doctor must also add you to his/her doctor list for confirmation</small></h3>
+                        <small>The doctor must also add you to his/her doctor list for confirmation</small></h3> -->
                         <form action= "#" method= "POST" >
                         <table class="table">
+                            <caption>Select the patients that you want to add to you aptient list. The doctor must also add you to his/her doctor list for confirmation  </caption>
                             <thead>
                                 <tr>
                                     <th>Select</th>
-                                    <th>Patient Username</th>
+                                    <th>Doctor Username</th>
                                 </tr>
                             </thead>
                             <tbody>
