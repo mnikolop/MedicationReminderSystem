@@ -97,6 +97,7 @@ sec_session_start();
                         $pa[] = $x;
                     }
                     foreach ($pa as $i){
+                        
 
                         // $lastTaken = strtotime($i['LastTaken']); 
 
@@ -108,6 +109,8 @@ sec_session_start();
                         $timeLeft =  (strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600);
                         
                         // echo "timeLeft = " .$timeLeft."<br><br>";
+                        // $a = strtotime("0 seconds");
+                        // echo $a;
                         // echo "lastTaken =".date('H:i:s', $lastTaken)."<br>"; 
                         // echo "dosage =".$dosage."<br>";
                         // echo "next =".date('H:i:s',$nextTakeIn)."<br>";
@@ -115,17 +118,8 @@ sec_session_start();
 
                         printf("<tr id='x'class='st'><td id='y'>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['Doctor'], date('H:i:s d-m', $nextTakeIn), date('H:i:s',$timeLeft));
 
-                        echo("<p hidden> tl = $timeLeft</p>");
                         
-                        if ($timeLeft <= strtotime(30)) {
-                            $t = "warning";
-                            echo "agadfg";
-                        }
-                        elseif ($timeLeft <= strtotime(10)) {
-                            $t = "danger";
-                            echo "string";
-                        }
-                        elseif ($timeLeft = strtotime(0)) {
+                        if ($timeLeft <= strtotime("0 seconds")) {
 
                             $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = $id";
                             $stmt3 = $mysqli->prepare($sql);
@@ -133,47 +127,47 @@ sec_session_start();
 
 
                             // Include the Twilio PHP library
-                            require 'Services/Twilio.php';
+                            // require_once 'Services/Twilio.php';
 
-                            // Twilio REST API version
-                            $version = "2010-04-01";
+                            // // Twilio REST API version
+                            // $version = "2010-04-01";
 
-                            // Set our Account SID and AuthToken
-                            $sid = '..........';
-                            $token = '...........';
+                            // // Set our Account SID and AuthToken
+                            // $sid = "ACe1eba0a045df901297dfc4ce0de51de2";
+                            // $token = "53c19ce2566b5d1f19ec8f733f98c28a";
 
-                            // A phone number you have previously validated with Twilio
-                            $phonenumber = '+306976928623';
+                            // // A phone number you have previously validated with Twilio
+                            // $phonenumber = '+302310831422';
 
-                            // Instantiate a new Twilio Rest Client
-                            $client = new Services_Twilio($sid, $token, $version);
+                            // // Instantiate a new Twilio Rest Client
+                            // $client = new Services_Twilio($sid, $token, $version);
 
-                            $sql2 = "SELECT telephone 
-                                        FROM `members` 
-                                        WHERE username = '".$_SESSION['username']."'"; 
+                            // // $sql2 = "SELECT telephone 
+                            // //             FROM `members` 
+                            // //             WHERE username = '".$_SESSION['username']."'"; 
                     
-                            // $res = mysqli_query($mysqli,$sql2);
-                            // while ($x = mysqli_fetch_array($res)){
-                            //     $c[] = $x;
+                            // // $res = mysqli_query($mysqli,$sql2);
+                            // // while ($x = mysqli_fetch_array($res)){
+                            // //     $c[] = $x;
+                            // // }
+                            // // $cn = array("+30", $x['telephone']);
+                            // // $callnumber = implode( $cn );
+
+                            // // echo date('H:i:s',$timeLeft)."<br>";
+                            // // echo $x['telephone'] ."<br>";
+
+
+                            // try {
+                            // // Initiate a new outbound call
+                            //     $call = $client->account->calls->create(
+                            //                                     $phonenumber, // The number of the phone initiating the call
+                            //                                     '+306976928623', // The number of the phone receiving call
+                            //                                     'http://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
+                            //                                         );
+                            //     echo 'Started call: ' . $call->sid;
+                            // } catch (Exception $e) {
+                            //     echo 'Error: ' . $e->getMessage();
                             // }
-                            // $cn = array("+30", $x['telephone']);
-                            // $callnumber = implode( $cn );
-
-                            // echo date('H:i:s',$timeLeft)."<br>";
-                            // echo $x['telephone'] ."<br>";
-
-
-                            try {
-                            // Initiate a new outbound call
-                                $call = $client->account->calls->create(
-                                                                $phonenumber, // The number of the phone initiating the call
-                                                                '+306976928623', // The number of the phone receiving call
-                                                                'http://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
-                                                                    );
-                                echo 'Started call: ' . $call->sid;
-                            } catch (Exception $e) {
-                                echo 'Error: ' . $e->getMessage();
-                            }
                         } 
                     }
                     ?>
