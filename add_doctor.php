@@ -30,16 +30,16 @@ sec_session_start();
             <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                 <ul class="nav bs-docs-sidenav">
                     <li>
-                        <a href="#therapies">Therapies</a>
+                        <a href="Patient.php#therapies">Therapies</a>
                     </li>
                     <li>
-                        <a href="#doctors">Doctors</a>
+                        <a href="Patient.php#doctors">Doctors</a>
                     </li>
                     <li>
                         <a href="#">Add a new Doctor to the doctor list</a>
                     </li>
                     <li>
-                        <a href="#profile">Profile</a>
+                        <a href="Patient.php#profile">Profile</a>
                     </li>
                     <li class="">
                      <?php echo '<a href="includes/logout.php">Log Out</a>' ?>

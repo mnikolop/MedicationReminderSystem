@@ -104,12 +104,13 @@ sec_session_start();
                         // $dosage = ($i['Dosage'] - 1) * 3600;
                         $nextTakeIn = strtotime($i['LastTaken']) + ($i['Dosage'] - 1) * 3600;
                         $id = $i['Id'];
-                        $time = time() + 3600;
-                        
+                        $time = time() + 3600;                        
                         $timeLeft =  (strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600);
-                        
-                        // echo "timeLeft = " .$timeLeft."<br><br>";
-                        // $a = strtotime("0 seconds");
+
+                        // echo date('H:i:s', $timeLeft - abs($nextTakeIn))."<br>";
+                        echo $timeLeft;
+                        // echo date('H:i:s',$nextTakeIn)."<br>";
+                        // // $a = strtotime("0 seconds");
                         // echo $a;
                         // echo "lastTaken =".date('H:i:s', $lastTaken)."<br>"; 
                         // echo "dosage =".$dosage."<br>";
@@ -119,7 +120,7 @@ sec_session_start();
                         printf("<tr id='x'class='st'><td id='y'>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['Doctor'], date('H:i:s d-m', $nextTakeIn), date('H:i:s',$timeLeft));
 
                         
-                        if ($timeLeft <= strtotime("0 seconds")) {
+                        if ((strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600) >= (time() + 3600)) {
 
                             $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = $id";
                             $stmt3 = $mysqli->prepare($sql);
