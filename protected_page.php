@@ -18,7 +18,7 @@ sec_session_start();
                 This is an example protected page.  To access this page, users
                 must be logged in.  At some stage, we'll also check the role of
                 the user, so pages will be able to determine the type of user
-                authorized  to access the page.
+                authorised to access the page.
             </p>
             <p>Return to <a href="index.php">login page</a></p>
         <?php else : ?>

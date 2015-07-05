@@ -61,7 +61,7 @@ sec_session_start();
     </div>  
     <div class="col-md-10">
         <div class="bs-docs-section">
-            <h3 id="therapies" class="page-header">Therapies<small> In this section you can review all the prescriptions and the time left to take them</small></h3>
+            <h3 id="therapies" class="page-header">Therapies<small> In this section you can review alla the prescriptions and the time left to take them</small></h3>
             
             <?php 
             // $t = time();
@@ -73,12 +73,12 @@ sec_session_start();
             ?>
             <table class="table">
                 <thead>
-                    <caption>This table contains all the prescriptions, the given dosage, the prescribing doctor, the time of the last intake and the time left for the next intake.</caption>
+                    <caption> This table containes alla the prescriptions, the given dosage, the prescribing doctor, the time of the last intake and the time left for the next intake</caption>
                     <tr>
                         <th>Drug</th>
-                        <th>Take every (hour(s))</th>
-                        <th>Prescribed  by:</th>
-                        <th>Take again in:</th>
+                        <th>Dosage</th>
+                        <th>Perscribed by:</th>
+                        <th>Take egain in:</th>
                         <th>Time left:</th>
                     </tr>
                 </thead>
@@ -86,7 +86,7 @@ sec_session_start();
 
                     <?php
                     // $index = 0;
-                    $stmt = "SELECT prescriptions.Id, prescriptions.Doctor, prescriptions.Drug, prescriptions.Dosage, prescriptions.LastTaken, drugs.Name
+                    $stmt = "SELECT * 
                     FROM `prescriptions`, `drugs` 
                     WHERE prescriptions.Drug = drugs.Id 
                     AND Patient = '".$_SESSION['username']."'";
@@ -108,7 +108,7 @@ sec_session_start();
                         $timeLeft =  (strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600);
 
                         // echo date('H:i:s', $timeLeft - abs($nextTakeIn))."<br>";
-                        // echo $timeLeft;
+                        echo $timeLeft;
                         // echo date('H:i:s',$nextTakeIn)."<br>";
                         // // $a = strtotime("0 seconds");
                         // echo $a;
@@ -120,55 +120,55 @@ sec_session_start();
                         printf("<tr id='x'class='st'><td id='y'>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>\n",$i['Name'],$i['Dosage'], $i['Doctor'], date('H:i:s d-m', $nextTakeIn), date('H:i:s',$timeLeft));
 
                         
-                        if ($nextTakeIn <= strtotime("+0 seconds")) {
-                            echo "You should have taken your".$i['Name']."in".date('H:i:s d-m', $nextTakeIn)."<br>";
-                            $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = '".$i['Id']."'";
+                        if ((strtotime($i['LastTaken']) + (($i['Dosage'] - 1) * 3600)) - (time() + 3600) >= (time() + 3600)) {
+
+                            $sql = "UPDATE prescriptions SET prescriptions.LastTaken = CURRENT_TIMESTAMP WHERE prescriptions.Id = $id";
                             $stmt3 = $mysqli->prepare($sql);
                             $stmt3->execute();
 
 
                             // Include the Twilio PHP library
-                            require_once 'Services/Twilio.php';
+                            // require_once 'Services/Twilio.php';
 
-                            // Twilio REST API version
-                            $version = "2010-04-01";
+                            // // Twilio REST API version
+                            // $version = "2010-04-01";
 
-                            // Set our Account SID and AuthToken
-                            $sid = "ACe1eba0a045df901297dfc4ce0de51de2";
-                            $token = "53c19ce2566b5d1f19ec8f733f98c28a";
+                            // // Set our Account SID and AuthToken
+                            // $sid = "ACe1eba0a045df901297dfc4ce0de51de2";
+                            // $token = "53c19ce2566b5d1f19ec8f733f98c28a";
 
-                            // A phone number you have previously validated with Twilio
-                            $phonenumber = '+306976928623';
+                            // // A phone number you have previously validated with Twilio
+                            // $phonenumber = '+302310831422';
 
-                            // Instantiate a new Twilio Rest Client
-                            $client = new Services_Twilio($sid, $token, $version);
+                            // // Instantiate a new Twilio Rest Client
+                            // $client = new Services_Twilio($sid, $token, $version);
 
-                            // $sql2 = "SELECT telephone 
-                            //             FROM `members` 
-                            //             WHERE username = '".$_SESSION['username']."'"; 
+                            // // $sql2 = "SELECT telephone 
+                            // //             FROM `members` 
+                            // //             WHERE username = '".$_SESSION['username']."'"; 
                     
-                            // $res = mysqli_query($mysqli,$sql2);
-                            // while ($x = mysqli_fetch_array($res)){
-                            //     $c[] = $x;
+                            // // $res = mysqli_query($mysqli,$sql2);
+                            // // while ($x = mysqli_fetch_array($res)){
+                            // //     $c[] = $x;
+                            // // }
+                            // // $cn = array("+30", $x['telephone']);
+                            // // $callnumber = implode( $cn );
+
+                            // // echo date('H:i:s',$timeLeft)."<br>";
+                            // // echo $x['telephone'] ."<br>";
+
+
+                            // try {
+                            // // Initiate a new outbound call
+                            //     $call = $client->account->calls->create(
+                            //                                     $phonenumber, // The number of the phone initiating the call
+                            //                                     '+306976928623', // The number of the phone receiving call
+                            //                                     'http://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
+                            //                                         );
+                            //     echo 'Started call: ' . $call->sid;
+                            // } catch (Exception $e) {
+                            //     echo 'Error: ' . $e->getMessage();
                             // }
-                            // $cn = array("+30", $x['telephone']);
-                            // $callnumber = implode( $cn );
-
-                            // echo date('H:i:s',$timeLeft)."<br>";
-                            // echo $x['telephone'] ."<br>";
-
-
-                            try {
-                            // Initiate a new outbound call
-                                $call = $client->account->calls->create(
-                                                                $phonenumber, // The number of the phone initiating the call
-                                                                '+306976928623', // The number of the phone receiving call
-                                                                'http://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
-                                                                    );
-                                echo 'Started call: ' . $call->sid;
-                            } catch (Exception $e) {
-                                echo 'Error: ' . $e->getMessage();
-                            }
                         } 
                     }
                     ?>
@@ -206,12 +206,12 @@ sec_session_start();
             AND PUsername = '".$_SESSION['username']."'";
             $result1 = mysqli_query($mysqli,$stmt1);
             while ($i = mysqli_fetch_array($result1))
-                $p[] = $i;
+                $pa[] = $i;
             ?>
 
             <table class="table">
                 <thead>
-                    <caption>This table contains all the usernames and e-mail of the doctors that have you under their care</caption>
+                    <caption>THis table containes all the usernames and e-mail of the doctors that have you under thir care</caption>
                     <tr>
                         <th>Doctor</th>
                         <th>e-mail</th>
@@ -219,7 +219,7 @@ sec_session_start();
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($p as $z) {
+                    foreach ($pa as $z) {
                         printf("<tr> <td>%s</td> <td>%s</td> </tr>\n", $z['username'], $z['email']);
                     }
                     ?>
@@ -227,7 +227,7 @@ sec_session_start();
             </table>
         </div>
         <div class="bs-docs-section">
-            <h3 id="profile" class="page-header">Profile<small> Here you can see the information with which you registered</small></h3>
+            <h3 id="profile" class="page-header">Profile<small> Here you can see the information whith which you registered</small></h3>
             <?php 
             $stmt2 = "SELECT * 
             FROM `members` 
@@ -237,7 +237,7 @@ sec_session_start();
             ?>
             <table class="table">
                 <thead>
-                    <caption>In this table you can see the information you have given during your registration.</caption>
+                    <caption>In this table you can see the informationn you have given during your registration.</caption>
                     <tr>
                         <th>Username</th>
                         <th>e-mail</th>

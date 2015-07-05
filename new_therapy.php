@@ -30,10 +30,10 @@ sec_session_start();
                 <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                     <ul class="nav bs-docs-sidenav">
                         <li>
-                            <a href="Doctor.php#present">Already Given Therapies</a>
+                            <a href="Doctor.php#present">Allready Given Therapies</a>
                         </li>
                         <li>
-                            <a href="Doctor.php#asignment">Assign a Therapy to a Patient</a>
+                            <a href="Doctor.php#asignment">Asigne a Therapy to a Patient</a>
                         </li>
                         <li>
                             <a href="Doctor.php#therapy">Register a NEW Therapy</a>
@@ -57,12 +57,12 @@ sec_session_start();
 
             <div class="col-md-10">
                 <div class="bs-docs-section">
-                    <h3 id="therapy" class="page-header">Register a NEW Therapy<small> Insert a new therapy to the system</small></h3>
+                    <h3 id="therapy" class="page-header">Register a NEW Therapy<small> Inseart an new therapy to the system</small></h3>
                     <form action= "#" method= "POST" >
 
                         <h3>Name <small>The name of the drug</small></h3> <input type="text" name="name" id="name" class="form-control input-lg"/>
-                        <h3>Substance <small>The name of the active substance of the drug</small></h3> <input type="text" name="substance"  id="substance" class="form-control input-lg"/>
-                        <h3>Content <small>The amount of the active substance in mg</small></h3> <input type="text" name="content" id="content" class="form-control input-lg"/>
+                        <h3>Substance <small>The name of the active sybstance of the drug</small></h3> <input type="text" name="substance"  id="substance" class="form-control input-lg"/>
+                        <h3>Content <small>The amount of the activ substance in mg</small></h3> <input type="text" name="content" id="content" class="form-control input-lg"/>
                         <h3>Sort description/ Site with side effects <small>A small description of the drug </small></h3> <textarea name="effects" id="effects" class="form-control input-lg"></textarea>
                     <!-- <h3>Can the patient take the therapy pefore the designated time?</h3>
                     <h4> <input type="radio" name="take" id="take" value="yes" /> Yes</h4>
@@ -80,6 +80,8 @@ sec_session_start();
                         }
                         else {
                             echo "1 record added";
+
+                            echo(rand() . "<br />");
                         }                               
                     }
                     ?>
