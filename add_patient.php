@@ -101,7 +101,7 @@ sec_session_start();
                                 else {
                                     echo "1 record added";
 
-                                    echo(rand() . "<br />");
+                                    
                                 }                               
                            }
                             ?>
@@ -117,4 +117,3 @@ sec_session_start();
     </div>
 </div>
 </body>
-</html>

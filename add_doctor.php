@@ -62,7 +62,7 @@ sec_session_start();
                         <small>The doctor must also add you to his/her doctor list for confirmation</small></h3> -->
                         <form action= "#" method= "POST" >
                         <table class="table">
-                            <caption>Select the patients that you want to add to you aptient list. The doctor must also add you to his/her doctor list for confirmation  </caption>
+                            <caption>Select the patients that you want to add to your a doctor list. The doctor must also add you to his/her doctor list for confirmation  </caption>
                             <thead>
                                 <tr>
                                     <th>Select</th>
