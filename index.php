@@ -28,7 +28,7 @@ if (login_check($mysqli) == true) {
     <div  id="index">     
         <div class="page-header"> <!-- page header: prefered because there was nothing to put in the navibar -->
             <h1>Markella Nikolopoulou-Themeli
-                <small>Thesis progect</small>
+                <small>Thesis project</small>
             </h1>
         </div>
 

@@ -47,14 +47,14 @@ sec_session_start();
                 <div class="bs-docs-section">
 
                     <table class="table">
-                        <caption>This table contines all the requests for conection betwen an doctor and a patient. 
-                            If a row is double AND the origin is once from the doctor and the other from the patient it must be insearted in the therapies table </caption>
+                        <caption>This table contains all the requests for connection between a doctor and a patient. 
+                            If a row is double AND the origin is once from the doctor and the other from the patient it must be inserted in the therapies table </caption>
                         <thead>
                             <tr>
                                 <th>Check</th>
                                 <th>Patient</th>
                                 <th>Doctor</th>
-                                <th>Submited by the</th>
+                                <th>Submitted by the</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,7 +74,7 @@ sec_session_start();
                                 
                                 $sql= "INSERT INTO treated (PUsername, DUsername)
                                 VALUES ('".$_POST['PUsername']."', '".$_POST['DUsername']."')";
-
+                                
                                 $ret = mysqli_query($mysqli, $sql);
 
                                 if (!$ret)

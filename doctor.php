@@ -30,10 +30,10 @@ sec_session_start();
                 <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
                     <ul class="nav bs-docs-sidenav">
                         <li>
-                            <a href="#present">Allready Given Therapies</a>
+                            <a href="#present">Already Given Therapies</a>
                         </li>
                         <li>
-                            <a href="#asignment">Asigne a Therapy to a Patient</a>
+                            <a href="#asignment">Assign a Therapy to a Patient</a>
                         </li>
                         <li>
                             <a href="new_therapy.php">Register a NEW Therapy</a>
@@ -57,7 +57,7 @@ sec_session_start();
 
             <div class="col-md-10">
                 <div class="bs-docs-section">
-                    <h2 id="present" class="page-header">Your Patietnts and theis Dosages <small>Here you can see all the prescriptions you have administered</small></h2>
+                    <h2 id="present" class="page-header">Your Patients and their Dosages <small>Here you can see all the prescriptions you have administered</small></h2>
                     <?php 
                     $stmt = "SELECT * 
                     FROM `prescriptions`, `drugs` 
@@ -69,7 +69,7 @@ sec_session_start();
                     ?>
                     <table class="table">
                         <thead>
-                            <caption>Thisa table contain the username of the patient the drug that was prescribed ans the dosage in hours</caption>
+                            <caption>This table contains the user name of the patient the drug that was prescribed ans the dosage in hours</caption>
                             <tr>
                                 <th>Patient</th>
                                 <th>Drug</th>
@@ -87,7 +87,7 @@ sec_session_start();
                 </div>
 
                 <div class="bs-docs-section">
-                    <h2 id="asignment" class="page-header">Asigne a Therapy to a Patient <small>Here you can make a new prescription to one of your patients</small></h2>           
+                    <h2 id="asignment" class="page-header">Assign a Therapy to a Patient <small>Here you can make a new prescription to one of your patients</small></h2>           
 
                     <form action= "#" method= "POST" >
 
@@ -100,7 +100,7 @@ sec_session_start();
                             $patients[] = $i;
                         ?>
 
-                        <h3>Patient Useraname: <small>The usernames of all the patient already in your patient list</small></h3>
+                        <h3>Patient Username: <small>The usernames of all the patient already in your patient list</small></h3>
                         <select name='patient' id='patient' class="form-control input-lg">
                             <?php
                             foreach($patients as $patient)
@@ -152,8 +152,6 @@ sec_session_start();
                                 }
                                 else {
                                     echo "1 record added";
-
-                                    echo(rand() . "<br />");
                                 }                               
                            }
                             ?>
@@ -163,7 +161,7 @@ sec_session_start();
                 </div>
 
                 <div class="bs-docs-section">
-                    <h3 id="profile" class="page-header">Profile <small>Here you can see the information you geve upon registration</small></h3>
+                    <h3 id="profile" class="page-header">Profile <small>Here you can see the information you gave upon registration</small></h3>
                     <?php 
                     $stmt2 = "SELECT * 
                     FROM `members` 
@@ -173,7 +171,7 @@ sec_session_start();
                     ?>
                     <table class="table">
                         <thead>
-                            <caption>Here you can see the information you geve upon registration</caption>
+                            <caption>Here you can see the information you gave upon registration</caption>
                             <tr>
                                 <th>Username</th>
                                 <th>e-mail</th>
