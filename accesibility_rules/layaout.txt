@@ -1,9 +1,0 @@
-- Adding a link at the top of each page that goes directly to the main content area
-
-- Ensuring that information conveyed by color differences is also available in text
-
-- Ordering the content in a meaningful sequence
-
-- Providing a breadcrumb trail
-
-- 

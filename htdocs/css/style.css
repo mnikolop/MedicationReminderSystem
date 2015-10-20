@@ -1,0 +1,13 @@
+/* general styling */
+body{
+	background-repeat: no-repeat;
+	background: #E5E5E5; /* Standard syntax */
+    padding-bottom: 30px;
+}
+
+.page-header {
+    border-bottom: 1px solid #400000;
+    padding-left: 3%
+}
+
+

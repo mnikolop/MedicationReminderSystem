@@ -1,1 +1,0 @@
-- Allowing users to complete an activity without any time limit
