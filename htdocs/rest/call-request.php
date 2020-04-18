@@ -6,8 +6,8 @@
 	$version = "2010-04-01";
 
 	// Set our Account SID and AuthToken
-	$sid = 'ACe1eba0a045df901297dfc4ce0de51de2';
-	$token = '53c19ce2566b5d1f19ec8f733f98c28a';
+	string sid = "***********************";
+    string token = "************************";
 	
 	// A phone number you have previously validated with Twilio
 	$phonenumber = '+306976928623';

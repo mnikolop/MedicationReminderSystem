@@ -127,51 +127,7 @@ sec_session_start();
                             $stmt3->execute();
 
 
-                           //  // Include the Twilio PHP library
-                           //  require_once 'Services/Twilio.php';
-
-                           //  // Twilio REST API version
-                           //  $version = "2010-04-01";
-
-                           //  // Set our Account SID and AuthToken
-                           //  $sid = "*******************************;
-                           //  $token = "******************************";
-
-                           //  // A phone number you have previously validated with Twilio
-                           //  $phonenumber = '+3069*********
-
-                           //  // Instantiate a new Twilio Rest Client
-                           //  $client = new Services_Twilio($sid, $token, $version);
-
-                           //  // $sql2 = "SELECT telephone 
-                           //  //             FROM `members` 
-                           //  //             WHERE username = '".$_SESSION['username']."'"; 
-                    
-                           //  // $res = mysqli_query($mysqli,$sql2);
-                           //  // while ($x = mysqli_fetch_array($res)){
-                           //  //     $c[] = $x;
-                           //  // }
-                           //  // $cn = array("+30", $x['telephone']);
-                           //  // $callnumber = implode( $cn );
-
-                           //  // echo date('H:i:s',$timeLeft)."<br>";
-                           //  // echo $x['telephone'] ."<br>";
-
-                           //  //echo "I got here, before the call";
-                           //  try {
-                           //  // Initiate a new outbound call
-                           //      $call = $client->account->calls->create(
-                           //                                      $phonenumber, // The number of the phone initiating the call
-                           //                                      '+306976928623', // The number of the phone receiving call
-                           //                                      'https://demo.twilio.com/welcome/voice/' // The URL Twilio will request when the call is answered
-                           //                                          );
-                           //      echo 'Started call: ' . $call->sid;
-                           //  //    echo "I got here, in the try";
-                           //  } catch (Exception $e) {
-                           //      echo 'Error: ' . $e->getMessage();
-                           //  //    echo "I got here, in the catch";
-                           //  }
-                           // // echo "I got here, after the call";
+                           
                         } 
                     }
                     ?>

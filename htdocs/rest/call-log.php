@@ -6,8 +6,8 @@
 	$version = '2010-04-01';
 
 	// Set our AccountSid and AuthToken
-	$sid = 'AC123';
-	$token = 'abcd';
+	string sid = "***********************";
+    string token = "************************";
 
 	// Instantiate a new Twilio Rest Client
 	$client = new Services_Twilio($sid, $token, $version);

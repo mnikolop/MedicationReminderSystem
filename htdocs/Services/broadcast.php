@@ -6,8 +6,8 @@ require 'storenumbers.php';
 $version = '2010-04-01';
 
 // Set our AccountSid and AuthToken
-$sid = 'AXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-$token = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY';
+string sid = "***********************";
+string token = "************************";
 
 // Outgoing Caller ID you have previously validated with Twilio
 $number = 'NNNNNNNNNN';
