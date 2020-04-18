@@ -213,3 +213,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+htdocs/Services/broadcast.cshtml
+htdocs/Services/broadcast.php
+htdocs/rest/call-request.php
+htdocs/rest/call-log.php
+htdocs/rest/call-log.cshtml
+htdocs/broadcast/broadcast.php
+htdocs/broadcast/broadcast.cshtml
+htdocs/Patient.php
